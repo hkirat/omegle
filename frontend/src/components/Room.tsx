@@ -70,6 +70,22 @@ export const Room = ({
             console.log("received offer");
             setLobby(false);
             const pc = new RTCPeerConnection();
+            pc.ontrack = (e) => {
+                alert('ontrack');
+                console.error('inside ontrack');
+                const { track, type } = e;
+                if (type == 'audio') {
+                // setRemoteAudioTrack(track);
+                // @ts-ignore
+                remoteVideoRef.current.srcObject.addTrack(track);
+                } else {
+                // setRemoteVideoTrack(track);
+                // @ts-ignore
+                remoteVideoRef.current.srcObject.addTrack(track);
+                }
+                //@ts-ignore
+                remoteVideoRef.current.play();
+            };
             pc.setRemoteDescription(remoteSdp)
             const sdp = await pc.createAnswer();
             //@ts-ignore
@@ -83,22 +99,7 @@ export const Room = ({
             // trickle ice 
             setReceivingPc(pc);
             window.pcr = pc;
-            pc.ontrack = (e) => {
-                alert("ontrack");
-                // console.error("inside ontrack");
-                // const {track, type} = e;
-                // if (type == 'audio') {
-                //     // setRemoteAudioTrack(track);
-                //     // @ts-ignore
-                //     remoteVideoRef.current.srcObject.addTrack(track)
-                // } else {
-                //     // setRemoteVideoTrack(track);
-                //     // @ts-ignore
-                //     remoteVideoRef.current.srcObject.addTrack(track)
-                // }
-                // //@ts-ignore
-                // remoteVideoRef.current.play();
-            }
+
 
             pc.onicecandidate = async (e) => {
                 if (!e.candidate) {
