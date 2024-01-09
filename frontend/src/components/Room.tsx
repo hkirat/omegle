@@ -1,8 +1,11 @@
-import Navbar from './Room/Navbar';
-import Main from './Room/Main';
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Socket, io } from "socket.io-client";
+
+import toast, {Toaster} from 'react-hot-toast';
+
+import Navbar from './Room/Navbar';
+import Main from './Room/Main';
 
 const URL = "http://localhost:3000";
 
@@ -148,14 +151,19 @@ export const Room = ({
         }
     }, [localVideoRef])
 
+    useEffect(() => {
+        if(lobby){
+            toast.loading("Waiting to connect you to someone")
+        }else{
+            toast.dismiss();
+        }
+    }, [lobby])
+
     return (
-      <div>
-        Hi {name}
+      <div className='flex flex-col gap-12'>
         <Navbar />
-        <Main remoteVideoRef={remoteVideoRef} localVideoRef={localVideoRef}/>
-        
-        {lobby ? 'Waiting to connect you to someone' : null}
-        
+        <Main remoteVideoRef={remoteVideoRef} localVideoRef={localVideoRef} />
+        <Toaster />
       </div>
     );
 }
