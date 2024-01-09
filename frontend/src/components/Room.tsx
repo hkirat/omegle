@@ -1,15 +1,18 @@
-import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import Navbar from './Room/Navbar';
+import Main from './Room/Main';
 
 export const Room = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const name = searchParams.get('name');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const name = searchParams.get('name');
 
-    useEffect(() => {
-        // logic to init user to the room
-    }, [name])
+  useEffect(() => {}, [name]);
 
-    return <div>
-        Hi {name}
+  return (
+    <div className='flex flex-col gap-5'>
+      <Navbar />
+      <Main />
     </div>
-}
+  );
+};
