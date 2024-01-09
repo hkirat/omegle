@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Omegle</title>
+        <style>
+            html{
+    height: 100%;
+    font-family: 'Roboto', 'Lucida Sans', 'Lucida Grande', sans-serif;
+}
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+header{
+    flex-basis: 10%;
+    box-shadow: 0px 0px 5px gray;
+}
+nav{
+    height: 100%;
+    padding: 0 10px;
+
+}
+.container{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+img.logo{
+    max-height: 50px;
+}
+.online-status{
+    font-size: 20px; font-weight: bold; color: skyblue;
+}
+
+main{
+    height: 100%;
+    margin: 10px;
+    padding: 0;
+    flex-basis: 90%;
+}
+.main-container{
+    padding: 20px 100px;
+}
+.monitored-text{
+    padding: 5px;
+    background-color: skyblue;
+    justify-content: center;
+    flex-direction: column-reverse;
+    text-align: center;
+    margin: 20px 0;
+}
+.start-chat{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.action-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+button.action-button{
+    background: -moz-linear-gradient(top,  #7db9e8 3%, #1e5799 99%, #1e5799 99%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #7db9e8 3%,#1e5799 99%,#1e5799 99%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #7db9e8 3%,#1e5799 99%,#1e5799 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#1e5799',GradientType=0 ); padding: 10px 20px; border-radius: 5px; border: none; color:white;  font-size: 18px;
+}
+.action-button  a{
+    color:white;
+    text-decoration: none;
+}
+
+/* ...............video_chat.html................. */
+
+.video_chat_main_container{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    flex-basis: 90%;
+}
+.video_chat_container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+.video-tag-container{
+    margin-top: 10px;
+    margin-right: 5px;
+    flex-basis: 30%;
+    display: flex;
+    flex-direction: column;
+}
+.videos{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.video-player{
+    flex-basis: 50%;
+}
+video{
+    max-width: 100%;
+    max-height: 100%;
+    background-color: rgb(63,62,62);
+}
+
+/* ............Chat Area ......... */
+
+.chat-container{
+    flex-basis: 70%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.chat-text-container{
+    flex-basis: 80%;
+}
+
+.next-chat-container{
+    flex-basis: 20%;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.next-chat{
+    display: flex;
+    flex-basis: 15%;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 0 5px gray;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+.type-message{
+    flex-basis: 70%;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 0 5px gray;
+    height: auto;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#msg-input{
+    width: 99%;
+    height: 91%;
+    outline: none;
+    border: 1px solid lightgray;
+    padding: 5px;
+}
+.msg-send-button{
+    display: flex;
+    flex-basis: 15%;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 0 5px gray;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+        </style>
+        
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="container">
+                    <img class="logo" src="/img/Logo.png" alt="">
+                    <h2>Talk to stranger</h2>
+                    <div class="online-status">5000+ online now</div>
+                </div>
+            </nav>
+        </header>
+        <main class="video_chat_main_container">
+            <div class="video_chat_container">
+                <div class="video-tag-container">
+                    <div class="videos">
+                        <video class="video-player" id="user-1" autoplay playsinline></video>
+                        <video class="video-player" id="user-2" style="border-top: 2px solid white;" autoplay="autoplay" playsinnline="playsinnline"></video>
+                    </div>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-text-container">
+                        <p>You are now chatting with a random stranger</p>
+                        <p>You both speak the same language - English</p>
+                        <hr class="horizontal-divider">
+                        <p class="chat-text-area"></p>
+                    </div>
+                    <div class="next-chat-container">
+                        <div class="next-chat">
+                            <div>Next</div>
+                        </div>
+                        <div class="type-message">
+                            <textarea name="" id="msg-input" cols="25" rows="5"></textarea>
+                        </div>
+                        <div class="msg-send-button">Send</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/video_chat.js' %}"></script>
+
+</html>
