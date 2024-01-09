@@ -5,7 +5,7 @@ import { Room } from "./Room";
 export const Landing = () => {
     const [name, setName] = useState("");
     const [localAudioTrack, setLocalAudioTrack] = useState<MediaStreamTrack | null>(null);
-    const [localVideoTrack, setlocalVideoTrack] = useState<MediaStreamTrack | null>(null);
+    const [localVideoTrack, setLocalVideoTrack] = useState<MediaStreamTrack | null>(null); //<- cmk-repo fixed typo
     const videoRef = useRef<HTMLVideoElement>(null);
 
     const [joined, setJoined] = useState(false);
@@ -19,7 +19,7 @@ export const Landing = () => {
         const audioTrack = stream.getAudioTracks()[0]
         const videoTrack = stream.getVideoTracks()[0]
         setLocalAudioTrack(audioTrack);
-        setlocalVideoTrack(videoTrack);
+        setLocalVideoTrack(videoTrack);//<- fixed typo
         if (!videoRef.current) {
             return;
         }
