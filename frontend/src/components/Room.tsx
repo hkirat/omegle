@@ -151,9 +151,12 @@ export const Room = ({
     return (
       <div>
         Hi {name}
-        <video autoPlay width={400} height={400} ref={localVideoRef} />
-        {lobby ? "Waiting to connect you to someone" : null}
-        <video autoPlay width={400} height={400} ref={remoteVideoRef} />
-    </div>
+        <Navbar />
+        <Main remoteVideoRef={remoteVideoRef} localVideoRef={localVideoRef}/>
+        
+        {lobby ? 'Waiting to connect you to someone' : null}
+        
+      </div>
+    );
 }
 
