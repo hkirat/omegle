@@ -2,6 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Socket, io } from "socket.io-client";
 
+import toast, {Toaster} from 'react-hot-toast';
+
+import Navbar from './Room/Navbar';
+import Main from './Room/Main';
+
 const URL = "http://localhost:3000";
 
 export const Room = ({
@@ -199,11 +204,20 @@ export const Room = ({
         }
     }, [localVideoRef])
 
-    return <div>
-        Hi {name}
-        <video autoPlay width={400} height={400} ref={localVideoRef} />
-        {lobby ? "Waiting to connect you to someone" : null}
-        <video autoPlay width={400} height={400} ref={remoteVideoRef} />
-    </div>
+    useEffect(() => {
+        if(lobby){
+            toast.loading("Waiting to connect you to someone")
+        }else{
+            toast.dismiss();
+        }
+    }, [lobby])
+
+    return (
+      <div className='flex flex-col gap-12'>
+        <Navbar />
+        <Main remoteVideoRef={remoteVideoRef} localVideoRef={localVideoRef} />
+        <Toaster />
+      </div>
+    );
 }
 
