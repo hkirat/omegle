@@ -12,7 +12,7 @@ const Navbar = () => {
             <span className='text-xl'>Talk to strangers!</span>
           </div>
           <div className='absolute inset-y-0 right-0 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
-            <span className='text-sky-400'>{people}+ online right now</span>
+            <span className='text-sky-400'>{people} people online</span>
           </div>
         </div>
       </div>

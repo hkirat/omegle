@@ -55,7 +55,7 @@ const ChatSection = () => {
   };
 
   return (
-    <div className='border w-[70vw] self-stretch rounded-lg shadow flex flex-col p-4'>
+    <div className='border flex-1 self-stretch rounded-lg shadow flex flex-col p-4'>
       <div className='max-h-[78vh] flex-1 flex flex-col overflow-y-auto'>
         {data.map((user: any, idx: number) => (
           <div
