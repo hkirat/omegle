@@ -22,7 +22,7 @@ export class UserManager {
             name, socket
         })
         this.queue.push(socket.id);
-        socket.send("lobby");
+        socket.emit("lobby");
         this.clearQueue()
         this.initHandlers(socket);
     }

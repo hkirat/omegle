@@ -30,6 +30,7 @@ export const Room = ({
             console.log("sending offer");
             setLobby(false);
             const pc = new RTCPeerConnection();
+
             setSendingPc(pc);
             if (localVideoTrack) {
                 console.error("added tack");
@@ -77,9 +78,27 @@ export const Room = ({
             if (remoteVideoRef.current) {
                 remoteVideoRef.current.srcObject = stream;
             }
+
             setRemoteMediaStream(stream);
             // trickle ice 
             setReceivingPc(pc);
+            window.pcr = pc;
+            pc.ontrack = (e) => {
+                alert("ontrack");
+                // console.error("inside ontrack");
+                // const {track, type} = e;
+                // if (type == 'audio') {
+                //     // setRemoteAudioTrack(track);
+                //     // @ts-ignore
+                //     remoteVideoRef.current.srcObject.addTrack(track)
+                // } else {
+                //     // setRemoteVideoTrack(track);
+                //     // @ts-ignore
+                //     remoteVideoRef.current.srcObject.addTrack(track)
+                // }
+                // //@ts-ignore
+                // remoteVideoRef.current.play();
+            }
 
             pc.onicecandidate = async (e) => {
                 if (!e.candidate) {
@@ -95,25 +114,38 @@ export const Room = ({
                 }
             }
 
-            pc.ontrack = ((e) => {
-                console.error("inside ontrack");
-                const {track, type} = e;
-                if (type == 'audio') {
-                    // setRemoteAudioTrack(track);
-                    // @ts-ignore
-                    remoteVideoRef.current.srcObject.addTrack(track)
-                } else {
-                    // setRemoteVideoTrack(track);
-                    // @ts-ignore
-                    remoteVideoRef.current.srcObject.addTrack(track)
-                }
-                //@ts-ignore
-                remoteVideoRef.current.play();
-            })
             socket.emit("answer", {
                 roomId,
                 sdp: sdp
             });
+            setTimeout(() => {
+                const track1 = pc.getTransceivers()[0].receiver.track
+                const track2 = pc.getTransceivers()[1].receiver.track
+                console.log(track1);
+                if (track1.kind === "video") {
+                    setRemoteAudioTrack(track2)
+                    setRemoteVideoTrack(track1)
+                } else {
+                    setRemoteAudioTrack(track1)
+                    setRemoteVideoTrack(track2)
+                }
+                //@ts-ignore
+                remoteVideoRef.current.srcObject.addTrack(track1)
+                //@ts-ignore
+                remoteVideoRef.current.srcObject.addTrack(track2)
+                //@ts-ignore
+                remoteVideoRef.current.play();
+                // if (type == 'audio') {
+                //     // setRemoteAudioTrack(track);
+                //     // @ts-ignore
+                //     remoteVideoRef.current.srcObject.addTrack(track)
+                // } else {
+                //     // setRemoteVideoTrack(track);
+                //     // @ts-ignore
+                //     remoteVideoRef.current.srcObject.addTrack(track)
+                // }
+                // //@ts-ignore
+            }, 5000)
         });
 
         socket.on("answer", ({roomId, sdp: remoteSdp}) => {
@@ -134,11 +166,21 @@ export const Room = ({
             console.log({candidate, type})
             if (type == "sender") {
                 setReceivingPc(pc => {
+                    if (!pc) {
+                        console.error("receicng pc nout found")
+                    } else {
+                        console.error(pc.ontrack)
+                    }
                     pc?.addIceCandidate(candidate)
                     return pc;
                 });
             } else {
                 setSendingPc(pc => {
+                    if (!pc) {
+                        console.error("sending pc nout found")
+                    } else {
+                        // console.error(pc.ontrack)
+                    }
                     pc?.addIceCandidate(candidate)
                     return pc;
                 });
