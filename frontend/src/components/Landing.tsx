@@ -15,7 +15,7 @@ export const Landing = () => {
     return <div>
       <div style={cardStyle}>
       <Box margin={2} style={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Typography margin={3} variant="h5" style={{color:'white'}}>Enter Room ID:- </Typography>
+        <Typography margin={3} variant="h5" style={{color:'white'}}>Enter Your Name:- </Typography>
         <TextField value={name} id="outlined-basic" label="Name" variant="outlined" style={{background:'white', borderRadius:'19px'}} onChange={(e)=> setName(e.target.value)}/>
         </Box>
         <Button variant="contained"><Link to={`/room/?name=${name}`} style={{color:'white'}}>Join</Link></Button>
