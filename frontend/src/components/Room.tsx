@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { Socket, io } from "socket.io-client";
 
 const URL = "http://localhost:3000";
 
-export const Room = ({
-  name,
-  localAudioTrack,
-  localVideoTrack,
-}: {
+declare global {
+  interface Window {
+    pcr: RTCPeerConnection;
+  }
+}
+
+interface RoomProp {
   name: string;
   localAudioTrack: MediaStreamTrack | null;
   localVideoTrack: MediaStreamTrack | null;
-}) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+}
+
+export const Room = ({ name, localAudioTrack, localVideoTrack }: RoomProp) => {
   const [lobby, setLobby] = useState(true);
   const [socket, setSocket] = useState<null | Socket>(null);
   const [sendingPc, setSendingPc] = useState<null | RTCPeerConnection>(null);
@@ -81,16 +83,18 @@ export const Room = ({
         remoteVideoRef.current.srcObject = stream;
       }
 
+      setRemoteMediaStream(stream);
+
       pc.ontrack = (e) => {
         alert("ontrack");
         console.error("inside ontrack");
         const { track, type } = e;
         if (type == "audio") {
-          // setRemoteAudioTrack(track);
+          setRemoteAudioTrack(track);
           // @ts-ignore
           remoteVideoRef.current.srcObject.addTrack(track);
         } else {
-          // setRemoteVideoTrack(track);
+          setRemoteVideoTrack(track);
           // @ts-ignore
           remoteVideoRef.current.srcObject.addTrack(track);
         }
@@ -103,7 +107,6 @@ export const Room = ({
       //@ts-ignore
       pc.setLocalDescription(sdp);
 
-      setRemoteMediaStream(stream);
       // trickle ice
       setReceivingPc(pc);
       window.pcr = pc;
@@ -128,7 +131,7 @@ export const Room = ({
       });
     });
 
-    socket.on("answer", ({ roomId, sdp: remoteSdp }) => {
+    socket.on("answer", ({ sdp: remoteSdp }) => {
       setLobby(false);
       setSendingPc((pc) => {
         pc?.setRemoteDescription(remoteSdp);
